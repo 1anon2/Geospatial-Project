@@ -122,5 +122,5 @@ class PathCompare:
         with multiprocessing.Pool(self._num_of_process) as pool:
             lst.append(pool.map(self._worker, self._unique_users))
         current_date_time = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-        df = pd.DataFrame.from_records(lst)
+        df = pd.DataFrame.from_records(lst[0])
         df.to_csv(f"Metrics_{city}_{current_date_time}.csv", index=False, sep=';')
