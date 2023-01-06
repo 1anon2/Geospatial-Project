@@ -5,7 +5,7 @@ import osmnx as ox
 import networkx as nx
 import warnings
 from datetime import datetime
-from multiprocessing import Pool
+
 
 ox.config(use_cache=True, log_console=True)
 
