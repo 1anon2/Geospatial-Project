@@ -109,10 +109,10 @@ class PathCompare:
         s1 = set(route_real)
         s2 = set(route_calc)
         metrics = {
-            'Jaccard': [self.jaccard_index(s1, s2)],
-            'length_real': [length_real],
-            'length_calc': [length_calc],
-            'user': [user]
+            'Jaccard': self.jaccard_index(s1, s2),
+            'length_real': length_real,
+            'length_calc': length_calc,
+            'user': user
         }
         metrics['length_dif'] = abs(metrics['length_real'] - metrics['length_calc'])
         return metrics
