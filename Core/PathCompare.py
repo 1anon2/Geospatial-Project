@@ -1,3 +1,4 @@
+import logging
 import multiprocessing
 from datetime import datetime
 
@@ -75,8 +76,10 @@ class PathCompare:
                 length_m_real = length_m_real + round(
                     nx.shortest_path_length(self.G, source=i[j], target=i[j + 1], weight='length'))
             tdf_03_route.append(i[j])
-        tdf_03_route.append(tdf_03_nodes[-1][-1])
-
+        try:
+            tdf_03_route.append(tdf_03_nodes[-1][-1])
+        except Exception as e:
+            logging.error(e)
         return tdf_03_nodes, tdf_03_route, orig_dest_route, int(length_m_calc), int(length_m_real)
 
     @staticmethod
