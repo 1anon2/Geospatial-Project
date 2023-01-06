@@ -99,7 +99,7 @@ class PathCompare:
 
     def _worker(self, user):
         data_03, data_04 = self._preprocessing(user)
-        data_03_nodes, route_real, route_calc, length_calc, length_real = self._routing(self.G, data_03, data_04)
+        data_03_nodes, route_real, route_calc, length_calc, length_real = self._routing(data_03, data_04)
         s1 = set(route_real)
         s2 = set(route_calc)
         metrics_pd = pd.DataFrame(
