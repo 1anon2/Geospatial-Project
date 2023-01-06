@@ -97,28 +97,30 @@ class PathCompare:
         # Size of the intersection set
         size_in = len(intersect)
         # using the formula
-        jaccard_in = round(size_in / (size_s1 + size_s2 - size_in), 3)
-        return jaccard_in
+        try:
+            return round(size_in / (size_s1 + size_s2 - size_in), 3)
+        except Exception as e:
+            logging.error(e)
+            return 0
 
     def _worker(self, user):
         data_03, data_04 = self._preprocessing(user)
         data_03_nodes, route_real, route_calc, length_calc, length_real = self._routing(data_03, data_04)
         s1 = set(route_real)
         s2 = set(route_calc)
-        metrics_pd = pd.DataFrame(
-            {
-                'Jaccard': [self.jaccard_index(s1, s2)],
-                'length_real': [length_real],
-                'length_calc': [length_calc],
-                'user': [user]
-            }
-        )
-        metrics_pd['length_dif'] = abs(metrics_pd['length_real'] - metrics_pd['length_calc'])
-        return metrics_pd
+        metrics = {
+            'Jaccard': [self.jaccard_index(s1, s2)],
+            'length_real': [length_real],
+            'length_calc': [length_calc],
+            'user': [user]
+        }
+        metrics['length_dif'] = abs(metrics['length_real'] - metrics['length_calc'])
+        return metrics
 
     def run(self, city=''):
-        df = pd.DataFrame(columns=['Jaccard', 'length_real', 'length_calc', 'user', 'length_dif'])
+        lst = []
         with multiprocessing.Pool(self._num_of_process) as pool:
-            df.append(pool.map(self._worker, self._unique_users))
+            lst.append(pool.map(self._worker, self._unique_users))
         current_date_time = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        df = pd.DataFrame.from_records(lst)
         df.to_csv(f"Metrics_{city}_{current_date_time}.csv", index=False, sep=';')
