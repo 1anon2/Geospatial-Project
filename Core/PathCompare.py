@@ -124,3 +124,5 @@ class PathCompare:
         current_date_time = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
         df = pd.DataFrame.from_records(lst[0])
         df.to_csv(f"Metrics_{city}_{current_date_time}.csv", index=False, sep=';')
+
+        
