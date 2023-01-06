@@ -113,9 +113,9 @@ class PathCompare:
         metrics_pd['length_dif'] = abs(metrics_pd['length_real'] - metrics_pd['length_calc'])
         return metrics_pd
 
-    def run(self):
+    def run(self, city=''):
         df = pd.DataFrame(columns=['Jaccard', 'length_real', 'length_calc', 'user', 'length_dif'])
-        with multiprocessing.Pool(4) as pool:
+        with multiprocessing.Pool(self._num_of_process) as pool:
             df.append(pool.map(self._worker, self._unique_users))
         current_date_time = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-        df.to_csv(f"Metrics_{current_date_time}.csv", index=False, sep=';')
+        df.to_csv(f"Metrics_{city}_{current_date_time}.csv", index=False, sep=';')
