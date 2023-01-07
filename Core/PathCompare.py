@@ -93,6 +93,8 @@ class PathCompare:
     def jaccard_index(self, s1, s2):
         size_s1 = len(s1)
         size_s2 = len(s2)
+        if size_s1 == 0 and size_s2 == 0:
+            return 0
         # Get the intersection set
         intersect = self._intersection(s1, s2)
         # Size of the intersection set
