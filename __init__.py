@@ -1,5 +1,6 @@
 from Core.PathCompare import PathCompare
 
+<<<<<<< HEAD
 # WARNING 1: processing MilanoData takes about 3.5 hours using multiprocessing with 8cores.
 #            Dataset has 1.8 million rows
 # WARNING 2: processing Rome Dataset (Taxi) takes about 3.5 hours using multiprocessing with 8cores.
@@ -9,6 +10,12 @@ from Core.PathCompare import PathCompare
 
 def main():
     path = PathCompare(name='Dataset_Milano/MilanoData.csv', num_of_process=8)
+=======
+# WARNING: processing MilanoData takes about 3.5 hours using multiprocessing with 8cores
+
+def main():
+    path = PathCompare(name='MilanoData.csv', num_of_process=8)
+>>>>>>> dev
     path.load_graph(graph_area='Milan, Italy', mode='drive')
     path.run(city='Milano')
 
