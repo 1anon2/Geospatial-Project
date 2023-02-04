@@ -11,14 +11,22 @@ from skmob.preprocessing import detection
 
 class PathCompare:
 
-    def __init__(self, name, num_of_process=4):
+    def __init__(self, name=None, num_of_process=4):
         self._num_of_process = num_of_process
+        self._df = None
         ox.config(use_cache=True, log_console=True)
-        self._df = pd.read_csv(name, engine='python', sep=',')
+        if name is not None:
+            self._df = pd.read_csv(name, engine='python', sep=',')
+            self._unique_users = list(self._df['userid'].unique())
+            self._unique_users.sort()
+            self._df.rename(columns={'lon': 'lng'}, inplace=True)
+        self.G = None
+
+    def set_df(self, df: pd.DataFrame):
+        self._df = df
         self._unique_users = list(self._df['userid'].unique())
         self._unique_users.sort()
         self._df.rename(columns={'lon': 'lng'}, inplace=True)
-        self.G = None
 
     def load_graph(self, graph_area, mode):
         self.G = ox.graph_from_place(graph_area, network_type=mode, clean_periphery=True, retain_all=True)
