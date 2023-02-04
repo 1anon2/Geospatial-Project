@@ -16,6 +16,7 @@ class PathCompare:
         ox.config(use_cache=True, log_console=True)
         self._df = pd.read_csv(name, engine='python', sep=',')
         self._unique_users = list(self._df['userid'].unique())
+        self._unique_users.sort()
         self._df.rename(columns={'lon': 'lng'}, inplace=True)
         self.G = None
 
@@ -92,6 +93,8 @@ class PathCompare:
     def jaccard_index(self, s1, s2):
         size_s1 = len(s1)
         size_s2 = len(s2)
+        if size_s1 == 0 and size_s2 == 0:
+            return 0
         # Get the intersection set
         intersect = self._intersection(s1, s2)
         # Size of the intersection set
@@ -104,6 +107,7 @@ class PathCompare:
             return 0
 
     def _worker(self, user):
+        logging.warning(user)
         data_03, data_04 = self._preprocessing(user)
         data_03_nodes, route_real, route_calc, length_calc, length_real = self._routing(data_03, data_04)
         s1 = set(route_real)
