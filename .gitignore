@@ -2,6 +2,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+Dataset_Milano
+Dataset_Rome_Taxi
+Dataset_San_Francisco
+
+
 # C extensions
 *.so
 
